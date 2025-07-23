@@ -17,23 +17,23 @@ jobs:
       run: |
         echo "🚀 Starting Streamlit app keep-alive pings..."
         
-        # App 1: insightstream-bi
-        echo "📊 Pinging insightstream-bi..."
-        curl -L --max-time 60 --retry 2 https://insightstream-bi.streamlit.app || echo "❌ Failed to ping insightstream-bi"
+        # App 1: 
+        echo "📊 Pinging..."
+        curl -A "Mozilla/5.0" -L --max-time 60 --retry 2 https://ds-ml-dashboard.streamlit.app || echo "❌ Failed to ping bi"
         
         # Wait between requests to be nice
         sleep 5
         
-        # App 2: Replace with your second app URL
+        # App 2: 
         echo "🎯 Pinging second app..."
-        curl -L --max-time 60 --retry 2 https://hotel-bookings-generator.streamlit.app || echo "❌ Failed to ping second app"
+        curl -A "Mozilla/5.0" -L --max-time 60 --retry 2 https://hotel-bookings-generator.streamlit.app || echo "❌ Failed to ping app"
         
-        # Optional: Double-ping critical apps after a short delay
+        #  Double-ping critical apps after a short delay
         echo "⏳ Waiting 10 seconds before second round..."
         sleep 10
         
         echo "🔄 Second round of pings..."
-        curl -L --max-time 30 --retry 1 https://insightstream-bi.streamlit.app || echo "❌ Second ping failed for insightstream-bi"
+        curl -A "Mozilla/5.0" -L --max-time 30 --retry 1 https://ds-ml-dashboard.streamlit.app || echo "❌ Second ping failed for bi"
         
         echo "✅ Keep-alive job completed!"
         
