@@ -1,0 +1,43 @@
+name: Keep Streamlit Apps Alive
+
+on:
+  schedule:
+    # Runs every 8 hours (at 00:00, 08:00, and 16:00 UTC)
+    - cron: '0 */8 * * *'
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  ping-streamlit-apps:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Ping Streamlit Apps
+      run: |
+        echo "🚀 Starting Streamlit app keep-alive pings..."
+        
+        # App 1: insightstream-bi
+        echo "📊 Pinging insightstream-bi..."
+        curl -L --max-time 60 --retry 2 https://insightstream-bi.streamlit.app || echo "❌ Failed to ping insightstream-bi"
+        
+        # Wait between requests to be nice
+        sleep 5
+        
+        # App 2: Replace with your second app URL
+        echo "🎯 Pinging second app..."
+        curl -L --max-time 60 --retry 2 https://hotel-bookings-generator.streamlit.app || echo "❌ Failed to ping second app"
+        
+        # Optional: Double-ping critical apps after a short delay
+        echo "⏳ Waiting 10 seconds before second round..."
+        sleep 10
+        
+        echo "🔄 Second round of pings..."
+        curl -L --max-time 30 --retry 1 https://insightstream-bi.streamlit.app || echo "❌ Second ping failed for insightstream-bi"
+        
+        echo "✅ Keep-alive job completed!"
+        
+    - name: Log completion
+      run: |
+        echo "Job completed at $(date)"
+        echo "Next run will be in ~8 hours"
